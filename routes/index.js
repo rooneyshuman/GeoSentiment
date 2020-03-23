@@ -10,8 +10,12 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/mood", function(req, res) {
-  var tweets = mood.get_tweets_and_sentiment(req.body.city, req.body.state);
-  console.log(`RETREIVED: ${tweets}`);
-  res.render("tweets", { title: "TWITTER MOOD", tweets: tweets });
+  mood
+    .get_tweets_and_sentiment(req.body.city, req.body.state)
+    .then(tweets => {
+      res.render("tweets", { title: "TWITTER MOOD", tweets: tweets });
+    })
+    .catch();
 });
+
 module.exports = router;
