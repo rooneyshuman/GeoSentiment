@@ -17,14 +17,16 @@
       <thead>
         <tr>
           <th>Text</th>
-          <th>Sentiment</th>
+          <th>Sentiment Magnitude</th>
+          <th>Sentiment Score</th>
         </tr>
       </thead>
       <tbody>
         <% for(var i in tweets) { %>
         <tr>
           <td><%=tweets[i].text%></td>
-          <td><%=tweets[i].sentiment%></td>
+          <td><%=tweets[i].sentiment.magnitude%></td>
+          <td><%=tweets[i].sentiment.score%></td>
         </tr>
         <% } %>
       </tbody>
