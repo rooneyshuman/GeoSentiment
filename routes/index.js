@@ -15,7 +15,7 @@ router.post("/mood", function(req, res) {
     .then(tweets => {
       res.render("tweets", { title: "TWITTER MOOD", tweets: tweets });
     })
-    .catch();
+    .catch(); //TODO: Error handling
 });
 
 module.exports = router;

@@ -24,9 +24,7 @@ function get_city_coordinates(city_name, state_name) {
   let city = cities.find(
     data => data.city.match(city_name) && data.state.match(state_name)
   );
-  var lat = city.latitude.toString();
-  var lng = city.longitude.toString();
-  return lat + "," + lng;
+  return city.latitude.toString() + "," + city.longitude.toString();
 }
 
 /**
