@@ -13,7 +13,6 @@ const twitter_client = new Twitter({
   access_token_key: twitter_secrets.TWITTER_ACCESS_TOKEN,
   access_token_secret: twitter_secrets.TWITTER_ACCESS_SECRET
 });
-const axios = require("axios");
 const maps_client = require("@googlemaps/google-maps-services-js").Client;
 const google_secrets = require("./google_sa");
 
