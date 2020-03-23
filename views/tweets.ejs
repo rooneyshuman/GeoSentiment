@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <header>
+    <% include layouts/header %>
+  </header>
+
+  <h1><%= title %></h1>
+
+  <div class="col-sm-12 table-scroll">
+    <table class="table table-bordered table-striped table-light">
+      <thead>
+        <tr>
+          <th>Text</th>
+          <th>Sentiment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i in tweets) { %>
+        <tr>
+          <td><%=tweets[i].text%></td>
+          <td><%=tweets[i].sentiment%></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>
