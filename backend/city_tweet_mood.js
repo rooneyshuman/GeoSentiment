@@ -1,8 +1,8 @@
 'use strict';
 const path = require('path');
 const process = require('process');
-process.env.GOOGLE_APPLICATION_CREDENTIALS = process.cwd() + path.sep + 'google_sa.json';
-const twitter_secrets = require('./twitter_keys');
+process.env.GOOGLE_APPLICATION_CREDENTIALS = process.cwd() + path.sep + 'secrets' + path.sep + 'google_sa.json';
+const twitter_secrets = require('../secrets/twitter_keys');
 const language = require('@google-cloud/language');
 const Twitter = require('twitter');
 const google_client = new language.LanguageServiceClient();

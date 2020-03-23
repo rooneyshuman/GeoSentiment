@@ -1,4 +1,4 @@
 /node_modules
-google_sa.json
-twitter_keys.json
+secrets/google_sa.json
+secrets/twitter_keys.json
 .idea

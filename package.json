@@ -14,5 +14,9 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1"
   }
 }
