@@ -13,26 +13,20 @@ const twitter_client = new Twitter({
   access_token_key: twitter_secrets.TWITTER_ACCESS_TOKEN,
   access_token_secret: twitter_secrets.TWITTER_ACCESS_SECRET
 });
-const maps_client = require("@googlemaps/google-maps-services-js").Client;
-const google_secrets = require("./google_sa");
+const cities = require("all-the-cities");
 
 /**
  * @param city_name
  * @returns string of gps coordinates (lat,long)
  */
-let get_city_coordinates = async city_name => {
-  const geocoder = new maps_client({});
-  let res = await geocoder.geocode({
-    params: {
-      address: city_name,
-      key: google_secrets.api_key
-    },
-    timeout: 1000 // milliseconds
-  });
-  var lat = res.data.results[0].geometry.location.lat.toString();
-  var lng = res.data.results[0].geometry.location.lng.toString();
+function get_city_coordinates(city_name) {
+  let city_info = cities.find(city => city.name.match(city_name));
+  var lng = city_info.loc.coordinates[0].toString();
+  var lat = city_info.loc.coordinates[1].toString();
+  console.log(lat + "," + lng);
+
   return lat + "," + lng;
-};
+}
 
 /**
  * get_city_tweets
@@ -42,7 +36,7 @@ let get_city_coordinates = async city_name => {
  * @returns an array of the tweet's text
  */
 async function get_city_tweets(city_name, num_of_tweets) {
-  const city_coordinate_info = await get_city_coordinates(city_name);
+  const city_coordinate_info = get_city_coordinates(city_name);
   const search_params = {
     q: "",
     geocode: city_coordinate_info + ",2mi",
