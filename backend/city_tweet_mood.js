@@ -2,7 +2,7 @@
 const path = require("path");
 const process = require("process");
 process.env.GOOGLE_APPLICATION_CREDENTIALS = process.cwd() + path.sep + 'secrets' + path.sep + 'google_sa.json';
-const twitter_secrets = require("./secrets/twitter_keys");
+const twitter_secrets = require("../secrets/twitter_keys");
 const language = require("@google-cloud/language");
 const Twitter = require("twitter");
 const google_client = new language.LanguageServiceClient();
@@ -12,7 +12,7 @@ const twitter_client = new Twitter({
   access_token_key: twitter_secrets.TWITTER_ACCESS_TOKEN,
   access_token_secret: twitter_secrets.TWITTER_ACCESS_SECRET
 });
-const cities = require("./cities");
+const cities = require("../cities");
 
 /**
  * @param city_name string - city to analyze
@@ -89,5 +89,6 @@ async function get_tweets_and_sentiment(city_name, state_name) {
 // get_tweets_and_sentiment();  // TODO - UNCOMMENT TO TEST -- `$ node ./city_tweet_mood.js`
 
 module.exports = {
-  get_tweets_and_sentiment
+  get_tweets_and_sentiment: get_tweets_and_sentiment,
+  _get_city_coordinates: get_city_coordinates
 };

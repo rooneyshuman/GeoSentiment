@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "start-dev": "nodemon ./bin/www",
+    "test": "./node_modules/.bin/mocha --exit"
   },
   "dependencies": {
     "@google-cloud/language": "^3.8.0",
@@ -17,6 +19,8 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.1.1"
+    "mocha": "^7.1.1",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.0.1"
   }
 }

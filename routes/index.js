@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var mood = require("../city_tweet_mood");
+var mood = require("../backend/city_tweet_mood");
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
