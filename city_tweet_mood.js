@@ -63,8 +63,8 @@ async function sentiment_helper(doc) {
  * @param text_arr - an array of tweet texts
  * @returns Object displaying the text and the sentiment dictionary { text: text, sentiment: {mag: float, score: float}}
  */
-async function get_sentiment(text_arr) {
-  return await Promise.all(
+function get_sentiment(text_arr) {
+  return Promise.all(
     text_arr.map(async text => {
       return {
         text: text,
@@ -85,15 +85,8 @@ async function get_sentiment(text_arr) {
  * @returns Array of text -> sentiment objects
  */
 async function get_tweets_and_sentiment(city_name, state_name) {
-  await get_city_tweets(city_name, state_name, 50)
-    .then(async results => {
-      let res = await get_sentiment(results);
-      console.log(res); // TODO - refactor to just a return when using these actual values (not just testing)
-      return res;
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  let tweet_arr = await get_city_tweets(city_name, state_name, 10);
+  return get_sentiment(tweet_arr);
 }
 
 // get_tweets_and_sentiment();  // TODO - UNCOMMENT TO TEST -- `$ node ./city_tweet_mood.js`
