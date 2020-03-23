@@ -4,9 +4,9 @@ var mood = require("../city_tweet_mood");
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  mood.get_tweets_and_sentiment("Portland");
+  mood.get_tweets_and_sentiment("Portland", "Oregon");
   res.render("index", {
-    title: "Express"
+    title: "TWITTER MOOD"
   });
 });
 
