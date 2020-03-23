@@ -17,16 +17,11 @@
     <p>Enter a city's information to retrieve its geo-sentiment analysis:</p>
     <div class="container justify-content-center align-items-center">
       <form class="col-xs-8" method="POST" action="/mood">
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label">City:</label>
-          <div class="col-sm-5">
-            <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
-          </div>
-        </div>
+
         <div class="form-group row">
           <label class="col-sm-4 col-form-label">State:</label>
           <div class="col-sm-5">
-            <select select class="form-control" name="state" required>
+            <select select class="form-control" id="state_select" name="state" required>
               <option value="" selected disabled>State</option>
               <option value="Alabama">Alabama</option>
               <option value="Alaska">Alaska</option>
@@ -87,6 +82,22 @@
           </div>
         </div>
 
+        <div class="form-group row" style="display: none" id="city_row">
+          <label class="col-sm-4 col-form-label">City:</label>
+          <div class="col-sm-5">
+            <!-- <input type="text" class="form-control" id="city" name="city" placeholder="City" required> -->
+            <select select class="form-control" id="city_select" name="city" required>
+              <option value="" selected disabled>City</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row" style="display: none">
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="coords_input" name="coords">
+          </div>
+        </div>
+
         <div class="form-group row">
           <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Get Mood</button>
@@ -96,6 +107,9 @@
       </form>
     </div>
   </div>
+
+  <script type="text/javascript" src="/javascripts/form.js"></script>
+
 </body>
 
 </html>
