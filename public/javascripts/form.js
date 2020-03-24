@@ -36,7 +36,6 @@ $(function() {
         data.state.match($("#state_select").val()) &&
         data.city.match($("#city_select").val())
     );
-    console.log(city);
     let coords = city.latitude.toString() + "," + city.longitude.toString();
     $("#coords_input").val(coords);
   });
