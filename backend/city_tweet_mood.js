@@ -13,33 +13,18 @@ const twitter_client = new Twitter({
   access_token_key: twitter_secrets.TWITTER_ACCESS_TOKEN,
   access_token_secret: twitter_secrets.TWITTER_ACCESS_SECRET
 });
-const cities = require("../cities");
-
-/**
- * @param city_name string - city to analyze
- * @param state_name string - state of city to analyze
- * @returns string of gps coordinates (lat,long)
- */
-function get_city_coordinates(city_name, state_name) {
-  let city = cities.find(
-    data => data.city.match(city_name) && data.state.match(state_name)
-  );
-  return city.latitude.toString() + "," + city.longitude.toString();
-}
 
 /**
  * get_city_tweets
  * Finds some number of tweets and their associated text for the passed-in city
- * @param city_name string - city to analyze
- * @param state_name string - state of city to analyze
+ * @param coordinates string - coordinates of city to analyze
  * @param num_of_tweets - how many tweets to analyse
  * @returns an array of the tweet's text
  */
-async function get_city_tweets(city_name, state_name, num_of_tweets) {
-  const city_coordinate_info = get_city_coordinates(city_name, state_name);
+async function get_city_tweets(coordinates, num_of_tweets) {
   const search_params = {
     q: "",
-    geocode: city_coordinate_info + ",2mi",
+    geocode: coordinates + ",2mi",
     lang: "en",
     count: num_of_tweets,
     tweet_mode: "extended"
@@ -77,19 +62,15 @@ function get_sentiment(text_arr) {
 
 /**
  * get_tweets_and_sentiment
- * Given a city name, return the top x amount of tweets
- * @param city_name string - city to analyze
- * @param state_name string - state of city to analyze
+ * Given a city's coordinates, return the top x amount of tweets
+ * @param coordinates string - coordinates of city to analyze
  * @returns Array of text -> sentiment objects
  */
-async function get_tweets_and_sentiment(city_name, state_name) {
-  let tweet_arr = await get_city_tweets(city_name, state_name, 10);
+async function get_tweets_and_sentiment(coordinates) {
+  let tweet_arr = await get_city_tweets(coordinates, 10);
   return get_sentiment(tweet_arr);
 }
 
-// get_tweets_and_sentiment();  // TODO - UNCOMMENT TO TEST -- `$ node ./city_tweet_mood.js`
-
 module.exports = {
-  get_tweets_and_sentiment: get_tweets_and_sentiment,
-  _get_city_coordinates: get_city_coordinates
+  get_tweets_and_sentiment: get_tweets_and_sentiment
 };
