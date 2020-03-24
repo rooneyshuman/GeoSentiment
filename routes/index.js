@@ -12,7 +12,7 @@ router.get("/", function(req, res, next) {
 
 router.post("/mood", function(req, res) {
   mood
-    .get_tweets_and_sentiment(req.body.city, req.body.state)
+    .get_tweets_and_sentiment(req.body.coords)
     .then(tweets => {
       res.render("tweets", { title: "TWITTER MOOD", tweets: tweets });
     })
