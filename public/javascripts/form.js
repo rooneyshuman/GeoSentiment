@@ -1,26 +1,43 @@
-function get_cities() {
+var cities;
+
+// Retrieve city data from JSON file
+$(function() {
+  cities = $.ajax({
+    type: "GET",
+    url: "../cities.json",
+    async: false
+  }).responseJSON;
+});
+
+// Filter cities matching state input and populate city dropdown
+$(function() {
   $("#state_select").change(function() {
-    var in_state;
-    $.ajax({
-      type: "GET",
-      url: "../cities.json",
-      success: function(cities) {
-        in_state = cities.filter(data =>
-          data.state.match($("#state_select").val())
-        );
-        $("#city_select").empty();
-        $("#city_select").append(
-          '<option value="" selected disabled>City</option>'
-        );
-        in_state.forEach(element => {
-          $("#city_select").append(
-            `<option value="${element.city}">${element.city}</option>`
-          );
-        });
-      }
+    var in_state = cities.filter(data =>
+      data.state.match($("#state_select").val())
+    );
+    $("#city_select").empty();
+    $("#city_select").append(
+      '<option value="" selected disabled>City</option>'
+    );
+    in_state.forEach(element => {
+      $("#city_select").append(
+        `<option value="${element.city}">${element.city}</option>`
+      );
     });
     $("#city_row").show();
   });
-}
+});
 
-get_cities();
+// Find city matching user input and populate coordinates field
+$(function() {
+  $("#city_select").change(function() {
+    var city = cities.find(
+      data =>
+        data.state.match($("#state_select").val()) &&
+        data.city.match($("#city_select").val())
+    );
+    console.log(city);
+    let coords = city.latitude.toString() + "," + city.longitude.toString();
+    $("#coords_input").val(coords);
+  });
+});
