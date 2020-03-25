@@ -1,7 +1,7 @@
 var cities;
 
 // Retrieve city data from JSON file
-$(function() {
+$(function () {
   cities = $.ajax({
     type: "GET",
     url: "../cities.json",
@@ -10,9 +10,9 @@ $(function() {
 });
 
 // Filter cities matching state input and populate city dropdown
-$(function() {
-  $("#state_select").change(function() {
-    var in_state = cities.filter(data =>
+$(function () {
+  $("#state_select").change(function () {
+    const in_state = cities.filter(data =>
       data.state.match($("#state_select").val())
     );
     $("#city_select").empty();
@@ -29,14 +29,16 @@ $(function() {
 });
 
 // Find city matching user input and populate coordinates field
-$(function() {
-  $("#city_select").change(function() {
-    var city = cities.find(
+$(function () {
+  $("#city_select").change(function () {
+    const city = cities.find(
       data =>
         data.state.match($("#state_select").val()) &&
         data.city.match($("#city_select").val())
     );
-    let coords = city.latitude.toString() + "," + city.longitude.toString();
-    $("#coords_input").val(coords);
+    $("#coords_input").val(
+      city.latitude.toString() + "," + city.longitude.toString()
+    );
+    $("#radius_row").show();
   });
 });
