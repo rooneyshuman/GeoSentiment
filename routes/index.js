@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var mood = require("../backend/city_tweet_mood");
-var cities = require("../public/assets/cities");
+var cities = require("../public/assets/pruned_cities");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -19,7 +19,7 @@ router.post("/mood", function (req, res) {
     .catch(); //TODO: Error handling
 });
 
-router.get("/cities.json", function (req, res) {
+router.get("/cities", function (req, res) {
   res.header("Content-Type", "application/json");
   res.send(JSON.stringify(cities));
 });

@@ -4,7 +4,7 @@ var cities;
 $(function () {
   cities = $.ajax({
     type: "GET",
-    url: "../cities.json",
+    url: "../cities",
     async: false,
   }).responseJSON;
 });
