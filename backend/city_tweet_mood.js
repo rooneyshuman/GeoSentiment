@@ -1,13 +1,9 @@
 "use strict";
+require("dotenv").config();
 const path = require("path");
 const process = require("process");
 process.env.GOOGLE_APPLICATION_CREDENTIALS =
   process.cwd() + path.sep + "secrets" + path.sep + "google_sa.json";
-const twitter_keys = require("../secrets/twitter_keys");
-process.env.TWITTER_API = twitter_keys.TWITTER_API;
-process.env.TWITTER_SECRET = twitter_keys.TWITTER_SECRET;
-process.env.TWITTER_ACCESS_TOKEN = twitter_keys.TWITTER_ACCESS_TOKEN;
-process.env.TWITTER_ACCESS_SECRET = twitter_keys.TWITTER_ACCESS_SECRET;
 const language = require("@google-cloud/language");
 const Twitter = require("twitter");
 const google_client = new language.LanguageServiceClient();
