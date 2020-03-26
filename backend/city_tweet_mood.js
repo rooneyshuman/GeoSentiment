@@ -3,16 +3,19 @@ const path = require("path");
 const process = require("process");
 process.env.GOOGLE_APPLICATION_CREDENTIALS =
   process.cwd() + path.sep + "secrets" + path.sep + "google_sa.json";
-// const twitter_secrets = require("../secrets/twitter_keys");
-const config = require("./config");
+const twitter_keys = require("../secrets/twitter_keys");
+process.env.TWITTER_API = twitter_keys.TWITTER_API;
+process.env.TWITTER_SECRET = twitter_keys.TWITTER_SECRET;
+process.env.TWITTER_ACCESS_TOKEN = twitter_keys.TWITTER_ACCESS_TOKEN;
+process.env.TWITTER_ACCESS_SECRET = twitter_keys.TWITTER_ACCESS_SECRET;
 const language = require("@google-cloud/language");
 const Twitter = require("twitter");
 const google_client = new language.LanguageServiceClient();
 const twitter_client = new Twitter({
-  consumer_key: config.TWITTER_API,
-  consumer_secret: config.TWITTER_SECRET,
-  // access_token_key: config.TWITTER_ACCESS_TOKEN,
-  // access_token_secret: config.TWITTER_ACCESS_SECRET,
+  consumer_key: process.env.TWITTER_API,
+  consumer_secret: process.env.TWITTER_SECRET,
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.TWITTER_ACCESS_SECRET,
 });
 const NUM_OF_TWEETS = 100;
 
