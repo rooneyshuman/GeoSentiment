@@ -3,3 +3,4 @@ secrets/google_sa.json
 secrets/twitter_keys.json
 .idea
 .vscode
+.env
