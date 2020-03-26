@@ -11,7 +11,7 @@ const twitter_client = new Twitter({
   consumer_key: twitter_secrets.TWITTER_API,
   consumer_secret: twitter_secrets.TWITTER_SECRET,
   access_token_key: twitter_secrets.TWITTER_ACCESS_TOKEN,
-  access_token_secret: twitter_secrets.TWITTER_ACCESS_SECRET
+  access_token_secret: twitter_secrets.TWITTER_ACCESS_SECRET,
 });
 const NUM_OF_TWEETS = 100;
 
@@ -28,15 +28,15 @@ async function get_city_tweets(coordinates, radius) {
     geocode: coordinates + "," + radius,
     lang: "en",
     count: NUM_OF_TWEETS,
-    tweet_mode: "extended"
+    tweet_mode: "extended",
   };
   let tweets = await twitter_client.get("search/tweets", search_params);
-  return Promise.resolve(tweets.statuses.map(tweet => tweet.full_text));
+  return Promise.resolve(tweets.statuses.map((tweet) => tweet.full_text));
 }
 
 async function sentiment_helper(doc) {
   let [result] = await google_client.analyzeSentiment({
-    document: doc
+    document: doc,
   });
   return Promise.resolve(result.documentSentiment);
 }
@@ -49,13 +49,13 @@ async function sentiment_helper(doc) {
  */
 function get_sentiment(text_arr) {
   return Promise.all(
-    text_arr.map(async text => {
+    text_arr.map(async (text) => {
       return {
         text: text,
         sentiment: await sentiment_helper({
           content: text,
-          type: "PLAIN_TEXT"
-        })
+          type: "PLAIN_TEXT",
+        }),
       };
     })
   );
@@ -73,5 +73,5 @@ async function get_tweets_and_sentiment(coordinates, radius) {
 }
 
 module.exports = {
-  get_tweets_and_sentiment: get_tweets_and_sentiment
+  get_tweets_and_sentiment: get_tweets_and_sentiment,
 };

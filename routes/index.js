@@ -6,14 +6,14 @@ var cities = require("../public/assets/cities");
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", {
-    title: "TWITTER MOOD"
+    title: "TWITTER MOOD",
   });
 });
 
 router.post("/mood", function (req, res) {
   mood
     .get_tweets_and_sentiment(req.body.coords, req.body.radius)
-    .then(tweets => {
+    .then((tweets) => {
       res.render("tweets", { title: "TWITTER MOOD", tweets: tweets });
     })
     .catch(); //TODO: Error handling
