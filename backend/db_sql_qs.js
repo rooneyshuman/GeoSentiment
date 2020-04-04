@@ -35,9 +35,31 @@ const insert_cities = `
     (?, ?, ?, ?);
 `;
 
+const get_city_id = `
+    SELECT id FROM cities
+    WHERE city = (?);
+`;
+
+const insert_tweet = `
+    INSERT INTO tweets
+    (contents, magnitude, sentiment)
+    VALUES
+    (?, ?, ?);
+`;
+
+const insert_tweet_rel = `
+    INSERT INTO city_tweets
+    (city_id, tweet_id, date, hour)
+    VALUES
+    (?, ?, ?, ?);
+`;
+
 module.exports = {
   city_table: city_table,
   city_tweet_table: city_tweet_table,
   tweets: tweets,
   insert_cities: insert_cities,
+  get_city_id: get_city_id,
+  insert_tweet: insert_tweet,
+  insert_tweet_rel: insert_tweet_rel,
 };
