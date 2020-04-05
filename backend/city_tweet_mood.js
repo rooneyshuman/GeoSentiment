@@ -50,12 +50,14 @@ async function sentiment_helper(doc) {
 function get_sentiment(text_arr) {
   return Promise.all(
     text_arr.map(async (text) => {
+      let sentiment = await sentiment_helper({
+        content: text,
+        type: "PLAIN_TEXT",
+      });
       return {
-        text: text,
-        sentiment: await sentiment_helper({
-          content: text,
-          type: "PLAIN_TEXT",
-        }),
+        content: text,
+        magnitude: sentiment.magnitude,
+        score: sentiment.score,
       };
     })
   );

@@ -1,7 +1,8 @@
-var express = require("express");
-var router = express.Router();
-var mood = require("../backend/city_tweet_mood");
-var cities = require("../public/assets/pruned_cities");
+const express = require("express");
+const router = express.Router();
+const cities = require("../public/assets/pruned_cities");
+const model_db = require("../backend/model_db");
+const db = new model_db.db();
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -11,12 +12,15 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/mood", function (req, res) {
-  mood
-    .get_tweets_and_sentiment(req.body.coords, req.body.radius)
-    .then((tweets) => {
+  db.get_current_tweets(
+    req.body.city,
+    req.body.state,
+    req.body.coords,
+    req.body.radius,
+    (tweets) => {
       res.render("tweets", { title: "TWITTER MOOD", tweets: tweets });
-    })
-    .catch(); //TODO: Error handling
+    }
+  ); // TODO - error handling
 });
 
 router.get("/cities", function (req, res) {

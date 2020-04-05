@@ -23,9 +23,9 @@ const city_tweet_table = `CREATE TABLE IF NOT EXISTS city_tweets
 const tweets = `CREATE TABLE IF NOT EXISTS tweets
     (
     id INTEGER PRIMARY KEY, 
-    contents TEXT,
+    content TEXT,
     magnitude TEXT,
-    sentiment TEXT
+    score TEXT
     );`;
 
 const insert_cities = `
@@ -37,12 +37,13 @@ const insert_cities = `
 
 const get_city_id = `
     SELECT id FROM cities
-    WHERE city = (?);
+    WHERE city = (?)
+    AND state = (?);
 `;
 
 const insert_tweet = `
     INSERT INTO tweets
-    (contents, magnitude, sentiment)
+    (content, magnitude, score)
     VALUES
     (?, ?, ?);
 `;
@@ -54,6 +55,27 @@ const insert_tweet_rel = `
     (?, ?, ?, ?);
 `;
 
+const get_current_city_tweets = `
+    SELECT c.city, t.content, t.magnitude, t.score
+    FROM cities AS c
+    INNER JOIN city_tweets AS ct ON c.id = ct.city_id
+    INNER JOIN tweets AS t ON ct.tweet_id = t.id
+    WHERE c.city = (?)
+    AND c.state = (?)
+    AND ct.date = (?)
+    AND ct.hour = (?);
+`;
+
+const is_current = `
+    SELECT COUNT(*)
+    FROM cities AS c
+    INNER JOIN city_tweets AS ct ON c.id = ct.city_id
+    WHERE c.city = (?)
+    AND c.state = (?)
+    AND ct.date = (?)
+    AND ct.hour = (?);
+`;
+
 module.exports = {
   city_table: city_table,
   city_tweet_table: city_tweet_table,
@@ -62,4 +84,6 @@ module.exports = {
   get_city_id: get_city_id,
   insert_tweet: insert_tweet,
   insert_tweet_rel: insert_tweet_rel,
+  get_current_city_tweets: get_current_city_tweets,
+  is_current: is_current,
 };

@@ -2,6 +2,8 @@
 const sqlite3 = require("sqlite3").verbose();
 const sql_q = require("./db_sql_qs");
 const cities = require("../public/assets/pruned_cities");
+const get_tweets_from_api = require("./city_tweet_mood")
+  .get_tweets_and_sentiment;
 
 class db {
   constructor() {
@@ -60,21 +62,20 @@ class db {
     return [date_str, hour];
   }
 
-  insert_tweet(city, content, magnitude, sentiment) {
+  insert_tweet(city, state, content, magnitude, score) {
     // assume check has already been done for this hour
     let [date_str, hour] = this._get_date_hour();
     let city_id, tweet_id;
     this._db_conn.serialize(() => {
       let get_city_statement = this._db_conn.prepare(sql_q.get_city_id);
-      get_city_statement.get(city, (err, result) => {
+      get_city_statement.get(city, state, (err, result) => {
         city_id = result.id;
       });
       get_city_statement.finalize();
       let insert_tweet_statement = this._db_conn.prepare(sql_q.insert_tweet);
-      insert_tweet_statement.run(content, magnitude, sentiment);
+      insert_tweet_statement.run(content, magnitude, score);
       insert_tweet_statement.finalize();
       this._db_conn.get("SELECT last_insert_rowid() as id;", (err, row) => {
-        console.log(row.id);
         tweet_id = row.id;
         let insert_tweet_rel_statement = this._db_conn.prepare(
           sql_q.insert_tweet_rel
@@ -82,6 +83,42 @@ class db {
         insert_tweet_rel_statement.run(city_id, tweet_id, date_str, hour);
         insert_tweet_rel_statement.finalize();
       });
+    });
+  }
+
+  get_current_tweets(city, state, coordinates, radius, callback) {
+    let [date_str, hour] = this._get_date_hour();
+    let current_statement = this._db_conn.prepare(sql_q.is_current);
+    current_statement.get(city, state, date_str, hour, (err, result) => {
+      if (Object.values(result)[0] === 0) {
+        console.log("reading from api"); // TODO - info (logging)
+        get_tweets_from_api(coordinates, radius).then((tweets) => {
+          tweets.forEach((tweet) => {
+            this.insert_tweet(
+              city,
+              state,
+              tweet.content,
+              tweet.magnitude,
+              tweet.score
+            );
+          });
+          callback(tweets);
+        });
+      } else {
+        console.log("reading from db"); // TODO - info (logging)
+        this.get_current_tweets_from_db(city, state, callback);
+      }
+    });
+    current_statement.finalize();
+  }
+
+  get_current_tweets_from_db(city, state, callback) {
+    let [date_str, hour] = this._get_date_hour();
+    let get_cur_tweets_statement = this._db_conn.prepare(
+      sql_q.get_current_city_tweets
+    );
+    get_cur_tweets_statement.all(city, state, date_str, hour, (err, rows) => {
+      callback(rows);
     });
   }
 }
