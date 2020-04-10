@@ -17,17 +17,25 @@
       <thead>
         <tr>
           <th>Text</th>
-          <th>Sentiment Score</th>
-          <th>Sentiment Positive</th>
-          <th>Sentiment Negative</th>
-          <th>Sentiment Neutral</th>
+          <th>Score</th>
+          <th>Positive</th>
+          <th>Negative</th>
+          <th>Neutral</th>
         </tr>
       </thead>
       <tbody>
         <% for(var i in tweets) { %>
         <tr>
           <td><%=tweets[i].content%></td>
-          <td><%=tweets[i].score%></td>
+          <% if(tweets[i].score > 0) { %>
+            <td style="color: green"><%=tweets[i].score%></td>
+          <% } else { %>
+            <% if(tweets[i].score == 0) { %>
+              <td><%=tweets[i].score%></td>
+            <% } else { %>
+              <td style="color: red"><%=tweets[i].score%></td>
+              <% } %>
+            <% } %>
           <td><%=tweets[i].positive%></td>
           <td><%=tweets[i].negative%></td>
           <td><%=tweets[i].neutral%></td>
