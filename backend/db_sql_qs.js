@@ -15,6 +15,7 @@ const city_tweet_table = `CREATE TABLE IF NOT EXISTS city_tweets
     tweet_id INTEGER, 
     date TEXT,
     hour INTEGER,
+    minute INTEGER,
     FOREIGN KEY(city_id) REFERENCES cities(id),
     FOREIGN KEY(tweet_id) REFERENCES tweets(id),
     PRIMARY KEY(city_id, tweet_id)
@@ -24,8 +25,10 @@ const tweets = `CREATE TABLE IF NOT EXISTS tweets
     (
     id INTEGER PRIMARY KEY, 
     content TEXT,
-    magnitude TEXT,
-    score TEXT
+    score TEXT,
+    positive TEXT,
+    negative TEXT,
+    neutral TEXT
     );`;
 
 const insert_cities = `
@@ -43,20 +46,20 @@ const get_city_id = `
 
 const insert_tweet = `
     INSERT INTO tweets
-    (content, magnitude, score)
+    (content, score, positive, negative, neutral)
     VALUES
-    (?, ?, ?);
+    (?, ?, ?, ?, ?);
 `;
 
 const insert_tweet_rel = `
     INSERT INTO city_tweets
-    (city_id, tweet_id, date, hour)
+    (city_id, tweet_id, date, hour, minute)
     VALUES
-    (?, ?, ?, ?);
+    (?, ?, ?, ?, ?);
 `;
 
 const get_current_city_tweets = `
-    SELECT c.city, t.content, t.magnitude, t.score
+    SELECT c.city, t.content, t.score, t.positive, t.negative, t.neutral
     FROM cities AS c
     INNER JOIN city_tweets AS ct ON c.id = ct.city_id
     INNER JOIN tweets AS t ON ct.tweet_id = t.id
@@ -73,7 +76,8 @@ const is_current = `
     WHERE c.city = (?)
     AND c.state = (?)
     AND ct.date = (?)
-    AND ct.hour = (?);
+    AND ct.hour = (?)
+    AND ct.minute = (?);
 `;
 
 module.exports = {
