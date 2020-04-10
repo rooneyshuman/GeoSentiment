@@ -42,14 +42,6 @@ class db {
     });
   }
 
-  close() {
-    this._db_conn.close();
-  }
-
-  get name() {
-    return this._db_name;
-  }
-
   _get_date_hour_min() {
     let date_obj = new Date();
     let date_str =
@@ -92,6 +84,16 @@ class db {
     });
   }
 
+  _get_current_tweets_from_db(city, state, callback) {
+    let [date_str, hour] = this._get_date_hour_min();
+    let get_cur_tweets_statement = this._db_conn.prepare(
+      sql_q.get_current_city_tweets
+    );
+    get_cur_tweets_statement.all(city, state, date_str, hour, (err, rows) => {
+      callback(rows);
+    });
+  }
+
   get_current_tweets(city, state, coordinates, callback) {
     let [date_str, hour, minute] = this._get_date_hour_min();
     let current_statement = this._db_conn.prepare(sql_q.is_current);
@@ -120,21 +122,11 @@ class db {
           });
         } else {
           console.log("reading from db"); // TODO - info (logging)
-          this.get_current_tweets_from_db(city, state, callback);
+          this._get_current_tweets_from_db(city, state, callback);
         }
       }
     );
     current_statement.finalize();
-  }
-
-  get_current_tweets_from_db(city, state, callback) {
-    let [date_str, hour] = this._get_date_hour_min();
-    let get_cur_tweets_statement = this._db_conn.prepare(
-      sql_q.get_current_city_tweets
-    );
-    get_cur_tweets_statement.all(city, state, date_str, hour, (err, rows) => {
-      callback(rows);
-    });
   }
 }
 
