@@ -26,9 +26,9 @@ const tweets = `CREATE TABLE IF NOT EXISTS tweets
     id INTEGER PRIMARY KEY, 
     content TEXT,
     score TEXT,
-    positive TEXT,
-    negative TEXT,
-    neutral TEXT
+    positive REAL,
+    negative REAL,
+    neutral REAL
     );`;
 
 const insert_cities = `
