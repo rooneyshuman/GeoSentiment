@@ -5,8 +5,8 @@ const city_table = `CREATE TABLE IF NOT EXISTS cities
     id INTEGER PRIMARY KEY,
     city TEXT, 
     state TEXT, 
-    latitude TEXT,
-    longitude TEXT
+    latitude REAL,
+    longitude REAL
     );`;
 
 const city_tweet_table = `CREATE TABLE IF NOT EXISTS city_tweets
