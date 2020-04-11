@@ -16,7 +16,6 @@ router.post("/mood", function (req, res) {
     req.body.city,
     req.body.state,
     req.body.coords,
-    req.body.radius,
     (tweets) => {
       res.render("tweets", { title: "TWITTER MOOD", tweets: tweets });
     }
