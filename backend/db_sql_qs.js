@@ -53,9 +53,9 @@ const insert_tweet = `
 
 const insert_tweet_rel = `
     INSERT INTO city_tweets
-    (city_id, tweet_id, date, hour, minute)
+    (city_id, tweet_id, date, time)
     VALUES
-    (?, ?, ?, ?, ?);
+    (?, ?, ?, ?);
 `;
 
 const get_current_city_tweets = `
@@ -66,7 +66,7 @@ const get_current_city_tweets = `
     WHERE c.city = (?)
     AND c.state = (?)
     AND ct.date = (?)
-    AND ct.hour = (?);
+    AND ct.time = (?);
 `;
 
 const is_current = `
@@ -76,8 +76,7 @@ const is_current = `
     WHERE c.city = (?)
     AND c.state = (?)
     AND ct.date = (?)
-    AND ct.hour = (?)
-    AND ct.minute = (?);
+    AND ct.time = (?);
 `;
 
 module.exports = {
