@@ -25,6 +25,14 @@ async function get_city_tweets(coordinates) {
     tweet_mode: "extended",
   };
   let tweets = await twitter_client.get("search/tweets", search_params);
+  console.log(
+    Promise.resolve(
+      tweets.statuses.map((tweet) => ({
+        text: tweet.full_text,
+        date: tweet.created_at,
+      }))
+    )
+  );
   return Promise.resolve(tweets.statuses.map((tweet) => tweet.full_text));
 }
 
