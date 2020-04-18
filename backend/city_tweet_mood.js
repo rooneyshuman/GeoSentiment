@@ -25,6 +25,14 @@ async function get_city_tweets(coordinates) {
     tweet_mode: "extended",
   };
   let tweets = await twitter_client.get("search/tweets", search_params);
+  console.log(
+    Promise.resolve(
+      tweets.statuses.map((tweet) => ({
+        text: tweet.full_text,
+        date: tweet.created_at,
+      }))
+    )
+  );
   return Promise.resolve(tweets.statuses.map((tweet) => tweet.full_text));
 }
 
@@ -58,14 +66,14 @@ function get_sentiment(text_arr) {
  */
 async function get_tweets_and_sentiment(coordinates) {
   let tweet_arr = await get_city_tweets(coordinates);
+  tweet_arr.forEach((element) => {
+    const date = new Date(element.date);
+    element.date =
+      date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+  });
   return get_sentiment(tweet_arr);
 }
 
 module.exports = {
   get_tweets_and_sentiment: get_tweets_and_sentiment,
 };
-  tweet_arr.forEach((element) => {
-    const date = new Date(element.date);
-    element.date =
-      date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-  });
