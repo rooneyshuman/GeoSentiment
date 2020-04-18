@@ -43,12 +43,13 @@ async function get_city_tweets(coordinates) {
  * @returns Object displaying the text and the sentiment dictionary
  *            { text: text, score: float, positive: float, negative: float, neutral: float}
  */
-function get_sentiment(text_arr) {
+function get_sentiment(tweet_arr) {
   let response_arr = [];
-  text_arr.forEach((tweet) => {
-    let intensity = vader.SentimentIntensityAnalyzer.polarity_scores(tweet);
+  tweet_arr.forEach((tweet) => {
+    let intensity = vader.SentimentIntensityAnalyzer.polarity_scores(tweet.text);
     response_arr.push({
-      content: tweet,
+      content: tweet.text,
+      date: tweet.date,
       score: intensity.compound,
       positive: intensity.pos,
       negative: intensity.neg,
