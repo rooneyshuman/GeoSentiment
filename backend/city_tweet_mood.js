@@ -46,7 +46,9 @@ async function get_city_tweets(coordinates) {
 function get_sentiment(tweet_arr) {
   let response_arr = [];
   tweet_arr.forEach((tweet) => {
-    let intensity = vader.SentimentIntensityAnalyzer.polarity_scores(tweet.text);
+    let intensity = vader.SentimentIntensityAnalyzer.polarity_scores(
+      tweet.text
+    );
     response_arr.push({
       content: tweet.text,
       date: tweet.date,
@@ -71,6 +73,7 @@ async function get_tweets_and_sentiment(coordinates) {
     const date = new Date(element.date);
     element.date =
       date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    element.time = date.getHours() + ":" + date.getMinutes();
   });
   return get_sentiment(tweet_arr);
 }
