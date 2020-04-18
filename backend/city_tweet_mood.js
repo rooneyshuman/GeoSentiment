@@ -52,6 +52,7 @@ function get_sentiment(tweet_arr) {
     response_arr.push({
       content: tweet.text,
       date: tweet.date,
+      time: tweet.time,
       score: intensity.compound,
       positive: intensity.pos,
       negative: intensity.neg,
